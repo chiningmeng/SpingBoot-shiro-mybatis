@@ -3,6 +3,7 @@ package com.whc.api.config.shiro;
 import com.alibaba.fastjson.JSONObject;
 
 import com.whc.api.service.LoginService;
+import com.whc.api.service.PermissionService;
 import com.whc.api.util.constants.Constants;
 import jdk.nashorn.internal.ir.annotations.Reference;
 import org.apache.shiro.SecurityUtils;
@@ -34,7 +35,8 @@ public class UserRealm extends AuthorizingRealm {
 
 	@Autowired
 	private LoginService loginService;
-
+	@Autowired
+	private PermissionService permissionService;
 	//授权
 	@Override
 	@SuppressWarnings("unchecked")
@@ -84,8 +86,11 @@ public class UserRealm extends AuthorizingRealm {
 		);
 		//session中不需要保存密码
 		user.remove("password");
-		//将用户信息放入session中
-		SecurityUtils.getSubject().getSession().setAttribute(Constants.SESSION_USER_INFO, user);
+		//将用户信息和权限放入session中
+		Session session = SecurityUtils.getSubject().getSession();
+		session.setAttribute(Constants.SESSION_USER_INFO, user);
+		JSONObject userPermission = permissionService.getUserPermission(username);
+		session.setAttribute(Constants.SESSION_USER_PERMISSION, userPermission);
 		return authenticationInfo;
 	}
 
