@@ -5,4 +5,8 @@ import org.springframework.stereotype.Service;
 
 public interface AdminService {
     JSONObject setBan(JSONObject requestJason);
+
+    JSONObject getBanInfo(JSONObject jsonObject);
+
+    void updateBanInfo();
 }

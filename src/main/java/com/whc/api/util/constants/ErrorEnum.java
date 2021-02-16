@@ -1,9 +1,6 @@
 package com.whc.api.util.constants;
 
-/**
- * @author: hxy
- * @date: 2017/10/24 10:16
- */
+
 public enum ErrorEnum {
 	/*
 	 * 错误信息

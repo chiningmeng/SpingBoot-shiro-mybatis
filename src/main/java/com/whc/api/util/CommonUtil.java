@@ -11,9 +11,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 /**
- * @author: hxy
  * @description: 本后台接口系统常用的json工具类
- * @date: 2017/10/24 10:12
  */
 public class CommonUtil {
 

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
 /**
- * @author: hxy
+ * @author: whc
  * @description: 对没有登录的请求进行拦截, 全部返回json信息. 覆盖掉shiro原本的跳转login.jsp的拦截方式
  * @date: 2017/10/24 10:11
  */

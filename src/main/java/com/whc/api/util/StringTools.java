@@ -1,9 +1,6 @@
 package com.whc.api.util;
 
-/**
- * @author: hxy
- * @date: 2017/10/24 10:16
- */
+
 public class StringTools {
 
 	public static boolean isNullOrEmpty(String str) {

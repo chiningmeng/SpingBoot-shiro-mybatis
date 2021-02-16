@@ -8,5 +8,21 @@
                 (#{openid},#{end},#{start},#{adminId},#{reason})
     </insert>
 
+    <select id="getBanInfo" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT openid,date_format(end_timestamp, '%Y-%c-%e %T') end_timestamp,date_format(operate_timestamp, '%Y-%c-%e %T') operate_timestamp,admin_openid,reason FROM forbidden_speech
+        WHERE end_timestamp > current_timestamp
+        ORDER BY end_timestamp DESC
+            LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="countBan" resultType="Integer">
+        SELECT count(0) FROM forbidden_speech
+    </select>
+
+    <delete id="updateBanInfo" >
+        DELETE FROM forbidden_speech
+            WHERE current_timestamp>=end_timestamp
+
+    </delete>
 
 </mapper>

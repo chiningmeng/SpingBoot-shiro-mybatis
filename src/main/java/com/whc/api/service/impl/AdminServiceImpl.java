@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -47,4 +48,23 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.setBan(requestJason);
         return CommonUtil.successJson();
     }
+
+    @Override
+    public JSONObject getBanInfo(JSONObject jsonObject) {
+
+        updateBanInfo();
+        CommonUtil.fillPageParam(jsonObject);
+        int count = adminMapper.countBan(jsonObject);
+        List<JSONObject> list = adminMapper.getBanInfo(jsonObject);
+        return CommonUtil.successPage(jsonObject,list,count);
+    }
+
+    /**
+     * 删除过时禁言信息
+     */
+    @Override
+    public void updateBanInfo() {
+        adminMapper.updateBanInfo();
+    }
+
 }

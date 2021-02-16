@@ -21,11 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 
-/**
- * @author: hxy
- * @description: 自定义Realm
- * @date: 2017/10/24 10:06
- */
+
 
 //密码的比对：
 	//通过AuthenticatingRealm 的 credentialsMatcher 属性来进行密码比对
