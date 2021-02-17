@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.whc.api.service.LoginService;
 import com.whc.api.service.PermissionService;
 import com.whc.api.util.constants.Constants;
-import jdk.nashorn.internal.ir.annotations.Reference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -65,7 +64,7 @@ public class UserRealm extends AuthorizingRealm {
 		//5. 根据用户信息情况，觉得是否抛出其他AuthenticationException 异常
 		if (user == null) {
 			//没找到帐号
-			throw new UnknownAccountException("用户不存在");
+			throw new UnknownAccountException();
 		}
 		//6. 根据用户情况，来构建 AuthenticationInfo 对象并返回
 		//通常使用的实现类为： SimpleAuthenticationInfo
@@ -77,7 +76,7 @@ public class UserRealm extends AuthorizingRealm {
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
 				user.getString("username"),
 				user.getString("password"),
-				ByteSource.Util.bytes("salt"),//salt=username+salt,采用明文访问时，不需要此句user.getString("username")+
+				ByteSource.Util.bytes(user.getString("username")+"salt"),//salt=username+salt,采用明文访问时，不需要此句
 				getName()
 		);
 		//session中不需要保存密码

@@ -8,6 +8,8 @@ import com.whc.api.util.CommonUtil;
 import com.whc.api.util.constants.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -36,9 +38,15 @@ public class LoginServiceImpl implements LoginService {
             //shiro提供的login方法--》自定义Realm中的doGetAuthenticationInfo
             currentUser.login(token);
             info.put("result", "success");
-        } catch (AuthenticationException e) {
+        } catch (UnknownAccountException e){
+            info.put("result","用户名不存在");
+        }catch (IncorrectCredentialsException e){
+            info.put("result","密码错误");
+        }
+        catch (AuthenticationException e) {
             info.put("result", "fail");
         }
+
         return CommonUtil.successJson(info);
     }
 
