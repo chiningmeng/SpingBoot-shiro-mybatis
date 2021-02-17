@@ -1,7 +1,10 @@
 # SpringBoot-shiro-mybatis
-
+shiro 和 权限设计 
 参考https://github.com/Heeexy/SpringBoot-Shiro-Vue
 realm有较大修改
+
+全局异常处理 在Heeexy的基础上
+参考了https://github.com/RudeCrab/rude-java/tree/master/project-practice/validation-and-exception-handler
 
 ### 目前功能
 

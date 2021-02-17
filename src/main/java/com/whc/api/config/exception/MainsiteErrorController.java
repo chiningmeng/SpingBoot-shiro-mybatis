@@ -3,7 +3,8 @@ package com.whc.api.config.exception;
 import com.alibaba.fastjson.JSONObject;
 
 import com.whc.api.util.CommonUtil;
-import com.whc.api.util.constants.ErrorEnum;
+import com.whc.api.util.constants.ResultCode;
+import com.whc.api.vo.ResultVO;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +28,8 @@ public class MainsiteErrorController implements ErrorController {
 	 */
 	@RequestMapping(value = ERROR_PATH)
 	@ResponseBody
-	public JSONObject handleError() {
-		return CommonUtil.errorJson(ErrorEnum.E_501);
+	public ResultVO<String> handleError() {
+		return new ResultVO<>(ResultCode.E_501);
 	}
 
 	@Override

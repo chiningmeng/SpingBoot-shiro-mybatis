@@ -2,26 +2,25 @@ package com.whc.api.config.exception;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.whc.api.util.CommonUtil;
-import com.whc.api.util.constants.ErrorEnum;
+import com.whc.api.util.constants.ResultCode;
+import com.whc.api.vo.ResultVO;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author: hxy
+ * @author: whc
  * @description: 统一异常拦截
- * @date: 2017/10/24 10:31
+ * @date: 2021/2/17 17:40
  */
-@ControllerAdvice
-@ResponseBody
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -36,23 +35,13 @@ public class GlobalExceptionHandler {
 			errorPosition = fileName + ":" + lineNumber;
 		}
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("code", ErrorEnum.E_400.getErrorCode());
-		jsonObject.put("msg", ErrorEnum.E_400.getErrorMsg());
+		jsonObject.put("code", ResultCode.E_400.getCode());
+		jsonObject.put("msg", ResultCode.E_400.getMsg());
 		JSONObject errorObject = new JSONObject();
 		errorObject.put("errorLocation", e.toString() + "    错误位置:" + errorPosition);
 		jsonObject.put("info", errorObject);
 		logger.error("异常", e);
 		return jsonObject;
-	}
-
-	/**
-	 * GET/POST请求方法错误的拦截器
-	 * 因为开发时可能比较常见,而且发生在进入controller之前,上面的拦截器拦截不到这个错误
-	 * 所以定义了这个拦截器
-	 */
-	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public JSONObject httpRequestMethodHandler() {
-		return CommonUtil.errorJson(ErrorEnum.E_500);
 	}
 
 	/**
@@ -65,20 +54,39 @@ public class GlobalExceptionHandler {
 		return commonJsonException.getResultJson();
 	}
 
+
 	/**
 	 * 权限不足报错拦截
 	 */
 	@ExceptionHandler(UnauthorizedException.class)
-	public JSONObject unauthorizedExceptionHandler() {
-		return CommonUtil.errorJson(ErrorEnum.E_502);
+	public ResultVO<String> unauthorizedExceptionHandler() {
+		// 然后提取错误提示信息进行返回
+		return new ResultVO<>(ResultCode.E_502);
 	}
 
+	/**
+	 * 用户名不存在
+	 */
+	@ExceptionHandler(UnknownAccountException.class)
+	public ResultVO<String> unknownAccountException(){
+		return new ResultVO<>(ResultCode.E_20001);
+	}
+
+	/**
+	 * 密码错误
+	 */
+	@ExceptionHandler(IncorrectCredentialsException.class)
+	public ResultVO<String> incorrectCredentialsException(){
+		return new ResultVO<>(ResultCode.E_20002);
+	}
 	/**
 	 * 未登录报错拦截
 	 * 在请求需要权限的接口,而连登录都还没登录的时候,会报此错
 	 */
 	@ExceptionHandler(UnauthenticatedException.class)
-	public JSONObject unauthenticatedException() {
-		return CommonUtil.errorJson(ErrorEnum.E_20011);
+	public ResultVO<String> unauthenticatedException() {
+		return new ResultVO<>(ResultCode.E_20011);
 	}
+
+
 }

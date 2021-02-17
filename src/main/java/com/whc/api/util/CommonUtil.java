@@ -2,9 +2,9 @@ package com.whc.api.util;
 
 import com.alibaba.fastjson.JSONObject;
 
+
 import com.whc.api.config.exception.CommonJsonException;
-import com.whc.api.util.constants.Constants;
-import com.whc.api.util.constants.ErrorEnum;
+import com.whc.api.util.constants.ResultCode;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
@@ -15,34 +15,6 @@ import java.util.List;
  */
 public class CommonUtil {
 
-	/**
-	 * 返回一个info为空对象的成功消息的json
-	 */
-	public static JSONObject successJson() {
-		return successJson(new JSONObject());
-	}
-
-	/**
-	 * 返回一个返回码为100的json
-	 */
-	public static JSONObject successJson(Object info) {
-		JSONObject resultJson = new JSONObject();
-		resultJson.put("code", Constants.SUCCESS_CODE);
-		resultJson.put("msg", Constants.SUCCESS_MSG);
-		resultJson.put("info", info);
-		return resultJson;
-	}
-
-	/**
-	 * 返回错误信息JSON
-	 */
-	public static JSONObject errorJson(ErrorEnum errorEnum) {
-		JSONObject resultJson = new JSONObject();
-		resultJson.put("code", errorEnum.getErrorCode());
-		resultJson.put("msg", errorEnum.getErrorMsg());
-		resultJson.put("info", new JSONObject());
-		return resultJson;
-	}
 
 	/**
 	 * 查询分页结果后的封装工具方法
@@ -54,27 +26,13 @@ public class CommonUtil {
 	public static JSONObject successPage(final JSONObject requestJson, List<JSONObject> list, int totalCount) {
 		int pageRow = requestJson.getIntValue("pageRow");
 		int totalPage = getPageCounts(pageRow, totalCount);
-		JSONObject result = successJson();
 		JSONObject info = new JSONObject();
 		info.put("list", list);
 		info.put("totalCount", totalCount);
 		info.put("totalPage", totalPage);
-		result.put("info", info);
-		return result;
+		return info;
 	}
 
-	/**
-	 * 查询分页结果后的封装工具方法
-	 *
-	 * @param list 查询分页对象list
-	 */
-	public static JSONObject successPage(List<JSONObject> list) {
-		JSONObject result = successJson();
-		JSONObject info = new JSONObject();
-		info.put("list", list);
-		result.put("info", info);
-		return result;
-	}
 
 	/**
 	 * 获取总页数
@@ -142,9 +100,8 @@ public class CommonUtil {
 			}
 			if (!StringTools.isNullOrEmpty(missCol)) {
 				jsonObject.clear();
-				jsonObject.put("code", ErrorEnum.E_90003.getErrorCode());
+				jsonObject.put("code", ResultCode.E_90003.getCode());
 				jsonObject.put("msg", "缺少必填参数:" + missCol.trim());
-				jsonObject.put("info", new JSONObject());
 				throw new CommonJsonException(jsonObject);
 			}
 		}

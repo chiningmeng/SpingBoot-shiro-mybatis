@@ -46,7 +46,7 @@ public class AdminServiceImpl implements AdminService {
         requestJason.put("end",end);
 
         adminMapper.setBan(requestJason);
-        return CommonUtil.successJson();
+        return new JSONObject();
     }
 
     @Override

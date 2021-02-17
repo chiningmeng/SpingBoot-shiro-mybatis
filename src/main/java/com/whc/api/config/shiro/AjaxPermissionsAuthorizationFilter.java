@@ -2,7 +2,7 @@ package com.whc.api.config.shiro;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.whc.api.util.constants.ErrorEnum;
+import com.whc.api.util.constants.ResultCode;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -23,8 +23,8 @@ public class AjaxPermissionsAuthorizationFilter extends FormAuthenticationFilter
 	@Override
 	protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("code", ErrorEnum.E_20011.getErrorCode());
-		jsonObject.put("msg", ErrorEnum.E_20011.getErrorMsg());
+		jsonObject.put("code", ResultCode.E_20011.getCode());
+		jsonObject.put("msg", ResultCode.E_20011.getMsg());
 		PrintWriter out = null;
 		HttpServletResponse res = (HttpServletResponse) response;
 		try {

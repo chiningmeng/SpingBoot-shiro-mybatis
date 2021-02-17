@@ -30,24 +30,13 @@ public class LoginServiceImpl implements LoginService {
     public JSONObject authLogin(JSONObject jsonObject) {
         String username = jsonObject.getString("username");
         String password = jsonObject.getString("password");
-        JSONObject info = new JSONObject();
         //得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
         Subject currentUser = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        try {
-            //shiro提供的login方法--》自定义Realm中的doGetAuthenticationInfo
-            currentUser.login(token);
-            info.put("result", "success");
-        } catch (UnknownAccountException e){
-            info.put("result","用户名不存在");
-        }catch (IncorrectCredentialsException e){
-            info.put("result","密码错误");
-        }
-        catch (AuthenticationException e) {
-            info.put("result", "fail");
-        }
 
-        return CommonUtil.successJson(info);
+        //shiro提供的login方法--》自定义Realm中的doGetAuthenticationInfo
+        currentUser.login(token);
+        return null;
     }
 
     /**
@@ -68,7 +57,7 @@ public class LoginServiceImpl implements LoginService {
         JSONObject info = new JSONObject();
         JSONObject userPermission = (JSONObject) session.getAttribute(Constants.SESSION_USER_PERMISSION);
         info.put("userPermission", userPermission);
-        return CommonUtil.successJson(info);
+        return info;
     }
 
     /**
@@ -81,6 +70,6 @@ public class LoginServiceImpl implements LoginService {
             currentUser.logout();
         } catch (Exception e) {
         }
-        return CommonUtil.successJson();
+        return new JSONObject();
     }
 }
