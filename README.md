@@ -1,4 +1,7 @@
-# SpingBoot-shiro-mybatis
+# SpringBoot-shiro-mybatis
+
+参考https://github.com/Heeexy/SpringBoot-Shiro-Vue
+realm有较大修改
 
 ### 目前功能
 
