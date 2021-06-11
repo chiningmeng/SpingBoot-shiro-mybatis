@@ -2,21 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.whc.api.mapper.AdminMapper">
-    <insert id="setBan" parameterType="com.alibaba.fastjson.JSONObject">
+    <insert id="setBan" >
         INSERT INTO forbidden_speech
-            (openid,end_timestamp,operate_timestamp,admin_openid,reason) VALUES
-                (#{openid},#{end},#{start},#{adminId},#{reason})
+            (openid,end_timestamp,admin_openid,reason) VALUES
+                (#{openid},#{end},#{adminId},#{reason})
     </insert>
 
     <select id="getBanInfo" resultType="com.alibaba.fastjson.JSONObject">
         SELECT openid,date_format(end_timestamp, '%Y-%c-%e %T') end_timestamp,date_format(operate_timestamp, '%Y-%c-%e %T') operate_timestamp,admin_openid,reason FROM forbidden_speech
         WHERE end_timestamp > current_timestamp
         ORDER BY end_timestamp DESC
-            LIMIT #{offSet}, #{pageRow}
-    </select>
-
-    <select id="countBan" resultType="Integer">
-        SELECT count(0) FROM forbidden_speech
     </select>
 
     <delete id="updateBanInfo" >

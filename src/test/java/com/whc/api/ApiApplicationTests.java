@@ -1,5 +1,6 @@
 package com.whc.api;
 
+import com.whc.api.enums.BanDuration;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,5 +21,10 @@ class ApiApplicationTests {
         Md5Hash md5Hash2 = new Md5Hash(password,"usersalt",2);
         System.out.println(md5Hash2);
     }
+    @Test
+    public void enumTest(){
+        int i = 2;
+        System.out.println(BanDuration.values()[i].getDuration());
 
+    }
 }
