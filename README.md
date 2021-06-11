@@ -1,17 +1,6 @@
-# SpringBoot-shiro-mybatis
-shiro 和 权限设计 
-参考https://github.com/Heeexy/SpringBoot-Shiro-Vue
-realm有较大修改
-
-全局异常处理 在Heeexy的基础上
-参考了https://github.com/RudeCrab/rude-java/tree/master/project-practice/validation-and-exception-handler
+# SpringBoot-mybatis
 
 ### 目前功能
-
-#### 登录
-1. 登录
-2. 登出
-3. 查询当前用户信息
    
 #### 禁言
 1. 设置禁言
